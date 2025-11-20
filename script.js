@@ -28,7 +28,7 @@ Al hacer clic:
 
 const titulo = document.getElementById("titulo");
 
-const descripción = document.getElementById("area-texto");
+const descripcion = document.getElementById("area-texto");
 
 const imagen = document.getElementById("imagen");
 
@@ -41,21 +41,18 @@ postearInfo.addEventListener("click", function () {
 
   const capturarTitulo = titulo.value;
   console.log(capturarTitulo);
-  const capturarDescripcion = descripción.value;
-
-
+  const capturarDescripcion = descripcion.value;
+  const capturarImagen = imagen.files[0];
 
 
   // Container Div
   const containerDiv = document.createElement("div");
-  containerDiv.style.width = "60%";
-  containerDiv.style.height = "400px";
+  containerDiv.style.width = "40%";
+  containerDiv.style.height = "auto";
   containerDiv.style.boxShadow = "0 0 10px #270fadcc";
   containerDiv.style.borderRadius = "20px";
   containerDiv.style.margin = "0 auto";
-
-
-
+  containerDiv.style.paddingBottom = "30px"
 
   //Crear el titulo
   const nuevoTitulo = document.createElement("h2");
@@ -63,35 +60,45 @@ postearInfo.addEventListener("click", function () {
   nuevoTitulo.style.display = "block";
   nuevoTitulo.textContent = capturarTitulo;
 
-  //Crear elemento descripcion
-  const nuevaDescripcion = document.createElement("p");
-  nuevaDescripcion.textContent = capturarDescripcion;
 
-  //VALIDAR SI ESTO FUNCIONA PARA GUARDAR EL ARCHIVO
-  const capturarImagen = imagen.files[0];
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    //Crear elemento imagen
-    const nuevaImagen = document.createElement("img");
-    nuevaImagen.style.width = "100%";
-    nuevaImagen.style.height = "auto%";
-    nuevaImagen.style.objectFit = "cover";
-    //VOY ACA, DEBO ASIGNAR EL ARCHIVO 
-    nuevaImagen.src = e.target.result;
+  if (capturarImagen) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      //Crear elemento imagen
+      const nuevaImagen = document.createElement("img");
+      nuevaImagen.src = e.target.result;
+      nuevaImagen.style.width = "70%";
+      nuevaImagen.style.height = "auto";
+      nuevaImagen.style.objectFit = "cover";
+      //VOY ACA, DEBO ASIGNAR EL ARCHIVO 
 
+      containerDiv.append(nuevaImagen);
+    };
+
+    reader.readAsDataURL(capturarImagen);
+
+  }else{
+  
+    alert("Debe completar la informacion o subir una imagen!");
   };
 
 
   //Agregando elementos al container div
+    //Crear elemento descripcion
+  const nuevaDescripcion = document.createElement("p");
+  nuevaDescripcion.textContent = capturarDescripcion;
+
   containerDiv.append(nuevoTitulo);
   containerDiv.append(nuevaDescripcion);
-  containerFeed.append(containerDiv);
-  containerDiv.append(nuevaImagen);
 
-  reader.readAsDataURL(capturarImagen);
+
+
+ 
+
+  containerFeed.append(containerDiv);
 
   titulo.value = "";
-  descripción.value = "";
+  descripcion.value = "";
   imagen.value = "";
 
 });
