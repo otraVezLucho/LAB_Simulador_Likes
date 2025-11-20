@@ -37,6 +37,7 @@ const postearInfo = document.getElementById("postear");
 const containerFeed = document.getElementById("feed");
 
 
+
 postearInfo.addEventListener("click", function () {
 
   const capturarTitulo = titulo.value;
@@ -52,15 +53,52 @@ postearInfo.addEventListener("click", function () {
   containerDiv.style.boxShadow = "0 0 10px #270fadcc";
   containerDiv.style.borderRadius = "20px";
   containerDiv.style.margin = "0 auto";
-  containerDiv.style.paddingBottom = "30px"
+  containerDiv.style.paddingBottom = "30px";
+  containerDiv.style.marginBottom = "10px";
 
   //Crear el titulo
   const nuevoTitulo = document.createElement("h2");
-  nuevoTitulo.style.padding = "20px";
   nuevoTitulo.style.display = "block";
+  nuevoTitulo.style.paddingTop = "20px";
+  nuevoTitulo.style.marginTop = "10px";
+  nuevoTitulo.style.marginBottom = "0";
   nuevoTitulo.textContent = capturarTitulo;
+  containerDiv.append(nuevoTitulo);
 
+  //Crear elemento descripcion
+  const nuevaDescripcion = document.createElement("p");
+  nuevaDescripcion.textContent = capturarDescripcion;
+  containerDiv.append(nuevaDescripcion);
+ 
+  //Span contador likes
+  let contador = 0;
+  const spanLikes = document.createElement("span");
+  spanLikes.style.display = "inline-block";
+  spanLikes.style.padding = "5px";
+  spanLikes.id = "numLikes";
 
+    //creacion boton likes
+  const likes = document.createElement("button");
+  likes.type = "button";
+  likes.id = "boton-likes";
+  likes.textContent = "❤";
+  likes.style.display = "inline-block";
+  likes.style.width = "10%"
+  
+
+ 
+  //Boton contador likes
+  likes.addEventListener("click", function() {
+        contador++;
+        spanLikes.textContent = contador;
+      });
+
+  //Contenedor del contador
+  const containerLikes = document.createElement("div");
+  containerLikes.appendChild(likes);
+  containerLikes.appendChild(spanLikes);
+
+    
   if (capturarImagen) {
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -72,29 +110,18 @@ postearInfo.addEventListener("click", function () {
       nuevaImagen.style.objectFit = "cover";
       //VOY ACA, DEBO ASIGNAR EL ARCHIVO 
 
+      //orden de aparicion de elementos en el div
       containerDiv.append(nuevaImagen);
+      containerDiv.append(containerLikes); 
     };
-
     reader.readAsDataURL(capturarImagen);
+} else {
 
-  }else{
-  
     alert("Debe completar la informacion o subir una imagen!");
   };
+  
 
-
-  //Agregando elementos al container div
-    //Crear elemento descripcion
-  const nuevaDescripcion = document.createElement("p");
-  nuevaDescripcion.textContent = capturarDescripcion;
-
-  containerDiv.append(nuevoTitulo);
-  containerDiv.append(nuevaDescripcion);
-
-
-
- 
-
+  //Agregando secciones al feed. 
   containerFeed.append(containerDiv);
 
   titulo.value = "";
